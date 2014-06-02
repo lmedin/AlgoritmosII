@@ -1,110 +1,135 @@
 import java.util.*;
 import java.io.*;
 
+
 class Peon extends Pieza {
 
 	private boolean primerMov;
 
-	public Peon(String s, int f, int c, String s2) {
+	public Peon (String s, int f, int c, String s2){
 
-		super(s, f, c, s2);
+		super(s,f,c,s2);
 		primerMov = true;
 	}
 
-	public ArrayList getMovimientosValidos(Tablero t) { // me da una lista con
-														// todas las posiciones
-														// posibles validas
-														// (mover)
-		ArrayList l = new ArrayList();
-		int[] parDeMovimientos1 = new int[2];
-		int[] parDeMovimientos2 = new int[2];
-		int[] parDeMovimientos3 = new int[2];
-		int[] parDeMovimientos4 = new int[2];
-
-		// Este es el caso en que mueva el peon blanco, y hacia arriba (no
-		// verifica que no pueda ir para abajo)
-		if (!(t.hayPiezaDadaPosicion((this.getFila() + 1), this.getColumna()))) {
-
-			parDeMovimientos1[0] = this.getFila() + 1;
-			parDeMovimientos1[1] = this.getColumna();
-			l.add(parDeMovimientos1);
-			if ((this.primerMov)
-					&& !(t.hayPiezaDadaPosicion(this.getFila() + 2,
-							this.getColumna()))) {
-				parDeMovimientos2[0] = this.getFila() + 2;
-				parDeMovimientos2[1] = this.getColumna();
-				l.add(parDeMovimientos2);
-			}
-
-		}
-		// Este es el caso en que mueva el peon negro, y hacia abajo (no
-		// verifica que no pueda ir para abajo)
-		if (!(t.hayPiezaDadaPosicion((this.getFila() - 1), this.getColumna()))) {
-
-			// /System.out.println("chequeo +1 peon fila");
-			// Par p1 = new Par(this.getFila()+1,this.getColumna());
-			parDeMovimientos1[0] = this.getFila() - 1;
-			parDeMovimientos1[1] = this.getColumna();
-			l.add(parDeMovimientos1);
-			if ((this.primerMov)
-					&& !(t.hayPiezaDadaPosicion(this.getFila() - 2,
-							this.getColumna()))) {
-				// Par p2 = new Par(this.getFila()+2,this.getColumna());
-				parDeMovimientos2[0] = this.getFila() - 2;
-				parDeMovimientos2[1] = this.getColumna();
-				l.add(parDeMovimientos2);
-			}
-
-		}
-		// Estos son los casos en que tenga que comer alguna pieza (tambien
-		// falta verificar que siempre se mueva en la direccion que le
-		// corresponde
-		if (t.hayPiezaDadaPosicion(this.getFila() - 1, this.getColumna() + 1)) {
-			parDeMovimientos3[0] = this.getFila() - 1;
-			parDeMovimientos3[1] = this.getColumna() + 1;
-			l.add(parDeMovimientos3);
-		}
-		if (t.hayPiezaDadaPosicion(this.getFila() - 1, this.getColumna() - 1)) {
-			parDeMovimientos3[0] = this.getFila() - 1;
-			parDeMovimientos3[1] = this.getColumna() - 1;
-			l.add(parDeMovimientos3);
-		}
-
-		if (t.hayPiezaDadaPosicion(this.getFila() + 1, this.getColumna() - 1)) {
-			parDeMovimientos4[0] = this.getFila() + 1;
-			parDeMovimientos4[1] = this.getColumna() - 1;
-			l.add(parDeMovimientos4);
-		}
-
-		return l;
-
-	}
-
-	public boolean getEsPrimerMov() {
+	
+	public boolean getEsPrimerMov(){
 		return this.primerMov;
-	}
-
-	public void setPrimerMov(boolean m) {
+	}	
+	
+	public void setPrimerMov(boolean m){
 		this.primerMov = m;
 	}
-
-	public boolean mover(int f, int c, Tablero t) {
-		// dada la pieza como la
-		// pieza que esta en cf y
-		// modifica el tablero
-		// Par p1 = new Par(f,c);
-		// System.out.println("chequeo +1 peon fila");
-		int[] movimiento = new int[2]; // Duplas de que tienen el siguiente
-										// formato [F,C]
-		Object[] lista = getMovimientosValidos(t).toArray();
-
-		for (int i = 0; i < lista.length; i++) {
-			movimiento = (int[]) lista[i];
-			if ((movimiento[0] == f) && (movimiento[1] == c)) {
+	
+	public boolean mover (int f, int c, Tablero t){    // dada la pieza como la pieza que esta en cf y modifica el tablero
+		
+		ArrayList<Par> lista = posiblesMovimientos(t,f,c);
+		Par p ;	
+		//System.out.println( "(" + f + "," + c + ") ");		
+		for (int i = 0; i < lista.size(); i++){
+			p = lista.get(i);
+			//System.out.println("imprimo lista movimientos");
+			//System.out.println( "(" + p.getPrimero() + "," + p.getSegundo() + ") ");
+			if ((p.getPrimero() == f) && (p.getSegundo() == c)){
+				if (this.getEsPrimerMov()) this.setPrimerMov(false);
 				return true;
+				
 			}
 		}
-
+		
 		return false;
 	}
+
+	 public boolean validarMovimiento (Tablero tablero, int fF, int cF) {
+
+                if (fF > 7 || fF < 0)
+                        return false;
+                if (cF > 7 || cF < 0)
+                        return false;
+
+               if (this.getColumna() == cF){
+				   
+				   switch ( this.getJugador() ) {
+					   
+						  case "blanco":
+							   return ((this.getFila()+1 == fF  && (! tablero.hayPiezaDadaPosicion(fF,cF))));
+							   
+						  case "negro":
+							   return ((this.getFila()-1 == fF  && (! tablero.hayPiezaDadaPosicion(fF,cF))));
+							   
+					}
+							   
+										
+			   }else{
+				 
+					switch ( this.getJugador() ) {
+					   
+						  case "blanco":
+								return ( this.getFila() < fF && tablero.hayPiezaDadaPosicion(fF,cF) && tablero.getPieza(fF,cF).getJugador() == "negro");
+							   
+						  case "negro":
+							   return (this.getFila() > fF && tablero.hayPiezaDadaPosicion(fF,cF) && tablero.getPieza(fF,cF).getJugador() == "blanco");
+							   
+					}
+				   
+				}
+				
+			return false;
+        }
+
+    public ArrayList<Par> posiblesMovimientos(Tablero t, int i1, int i2) {
+
+        ArrayList<Par> a = new ArrayList<Par>();
+        int fil;
+        int col;
+        
+       for (int df=-1; df<=1; df++){
+                if (df != 0){
+                        for (int dc=-1; dc<=1; dc++){
+								//System.out.println( "(" + this.getFila() + "," + this.getColumna() + ") ");
+								fil = this.getFila()+df;
+								col = this.getColumna()+dc;
+								//System.out.println( "(" + fil + "," + col + ") ");
+                                if (validarMovimiento(t, fil, col)) {
+										//System.out.println( "acepto");
+										//System.out.println( "(" + fil + "," + col + ") ");
+                                        a.add(new Par(fil, col));
+                                }
+                        }
+                 }
+        }
+        
+        if (this.getEsPrimerMov()){
+			
+			col = this.getColumna();
+			
+			switch ( this.getJugador() ) {
+					   
+						  case "blanco":
+								fil = this.getFila()+2;
+								//System.out.println( "(" + fil + "," + col + ") ");
+								if (! t.hayPiezaDadaPosicion(fil, col)){
+									//System.out.println( "(" + fil + "," + col + ") ");
+									a.add(new Par(fil, col));
+								}
+								
+															
+							   break;
+							   
+						  case "negro":
+								fil = this.getFila()-2;
+								//System.out.println( "(" + fil + "," + col + ") ");
+							   if (! t.hayPiezaDadaPosicion(fil,col)){
+									a.add(new Par(fil,col));
+								}
+								
+							   break;
+							   
+					}
+			
+				
+		}
+        
+        return a;
+    }   
 }

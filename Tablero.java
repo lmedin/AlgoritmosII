@@ -156,13 +156,18 @@ class Tablero {
 								// el movimiento , el tablero luego modifica las
 								// posiciones
 
+				
+				// chequeo si la posicion a donde me muevo estaba el rey para terminar la partida
+				if (this.hayPiezaDadaPosicion(fd,cd) && this.getPieza(fd,cd).getCode() == "R"){
+					// aca seteamos un flag para q salga del ciclo la class terminal o agregamos un campo entablero	
+										
+				}
+
 				// hacer funcion que si la ficha comida es el rey termine
 				setPieza(ficha, fd, cd);
 
 				// hacer aca funcion q verifique si se produce jaque al mover
-				// una pieza
-				// / luego hay que chequear si hay jaque o se termino el juego
-				// si la ficha comida es el rey
+				// una pieza				
 
 				return true;
 

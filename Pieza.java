@@ -152,5 +152,11 @@ class Pieza {
 		}
 
 	}
+	
+	public boolean estaEnJaque(Tablero t, int fila, int columna){
+		// aca no entro nunca
+		System.out.println("Si imprimo esto, es ERROR");
+		return true;
+	}
 
 }

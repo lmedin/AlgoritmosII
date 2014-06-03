@@ -47,7 +47,7 @@ public class Terminal {
 		
 		// Leemos las entradas del teclado		
 		
-		while(true){
+		while(tableroAjedrez.getEstado()){
 			
 			try{
 					System.out.println("Ingrese ficha a mover");

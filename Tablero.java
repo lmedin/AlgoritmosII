@@ -4,12 +4,18 @@ import java.io.*;
 class Tablero {
 
 	private Pieza[][] mesa;
+	private boolean finJuego;
+	private Par posReyNegro;
+	private Par posReyBlanco;
 
 	// Constructor Tablero
 	public Tablero(String s1, String s2) {
 
 		mesa = new Pieza[8][8];
 		generarPiezas(s1, s2);
+		finJuego = true;
+		posReyNegro = new Par(7,4);
+		posReyBlanco = new Par(0,4);
 
 	}
 
@@ -68,6 +74,24 @@ class Tablero {
 	public Pieza getPieza(int f, int c) {
 		return mesa[f][c];
 	}
+	
+	public Par getReyNegro() {
+		return posReyNegro;
+	}
+	
+	public Par getReyBlanco() {
+		return posReyBlanco;
+	}
+	
+	public void setReyNegro(int f , int c) {
+		posReyNegro.setPrimero(f);
+		posReyNegro.setSegundo(c);
+	}
+	
+	public void setReyBlanco(int f, int c) {
+		posReyBlanco.setPrimero(f);
+		posReyBlanco.setSegundo(c);
+	}
 
 	// Mueve la pieza pasada por parametro a la posicion "pos"
 	public void setPieza(Pieza p, int f, int c) {
@@ -116,6 +140,16 @@ class Tablero {
 			return true;
 		}
 	}
+	
+	public void setEstado() {
+		
+		finJuego = false;
+	}
+	
+	public boolean getEstado() {
+		
+		return finJuego;
+	}
 
 	public boolean posicionValida(int f, int c) {
 		if (f >= 0 && f < 8 && c >= 0 && c < 8) {
@@ -159,15 +193,36 @@ class Tablero {
 				
 				// chequeo si la posicion a donde me muevo estaba el rey para terminar la partida
 				if (this.hayPiezaDadaPosicion(fd,cd) && this.getPieza(fd,cd).getCode() == "R"){
-					// aca seteamos un flag para q salga del ciclo la class terminal o agregamos un campo entablero	
+					finJuego = true;	
 										
 				}
 
-				// hacer funcion que si la ficha comida es el rey termine
 				setPieza(ficha, fd, cd);
 
-				// hacer aca funcion q verifique si se produce jaque al mover
-				// una pieza				
+				// verifico si luego de realizar un movimiento el rey contrario esta en jaque.
+								
+				Par pos;
+				Pieza rey;
+				
+				switch ( ficha.getJugador() ) {
+				   
+				  case "blanco":
+					  pos = this.getReyNegro();
+					  rey = this.getPieza(pos.getPrimero(), pos.getSegundo());
+					  if (rey.estaEnJaque(this, pos.getPrimero(),pos.getSegundo())){
+						  System.out.println("Rey negro en jaque");
+						  // aca nose q mas se puede hacer PREGUNTAR
+					  }
+					  break;
+					   
+				  case "negro":
+					  pos = this.getReyBlanco();
+					  rey = this.getPieza(pos.getPrimero(), pos.getSegundo());
+					  if (rey.estaEnJaque(this, pos.getPrimero(),pos.getSegundo())){
+						  System.out.println("Rey blanco en jaque");
+						  // aca nose q mas se puede hacer PREGUNTAR
+					  }						   
+				}	
 
 				return true;
 

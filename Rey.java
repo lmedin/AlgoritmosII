@@ -112,6 +112,11 @@ class Rey extends Pieza {
 		ArrayList<Par> listaMovimientos = this.posiblesMovimientos(t);
 		for (int i = 0; i < listaMovimientos.size(); i++) {
 			if (listaMovimientos.get(i).getPrimero() == f && listaMovimientos.get(i).getSegundo() == c) {
+				if (this.getJugador() == "blanco"){
+					t.setReyBlanco(f,c);
+				}else{
+					t.setReyNegro(f,c);
+				}				
 				return true;
 			}
 

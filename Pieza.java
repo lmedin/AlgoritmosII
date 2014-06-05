@@ -9,12 +9,18 @@ class Pieza {
 	private String code;
 	private int fila;
 	private int columna;
+	private String tipo;
 
-	public Pieza(String s, int f, int c, String s2) {
+	public Pieza(String s, int f, int c, String s2, String t) {
 		jugador = s;
 		fila = f;
 		columna = c;
 		code = s2;
+		tipo=t;
+	}
+	
+	public String getTipo(){
+		return tipo;	
 	}
 
 	public void setJugador(String s) {
@@ -53,8 +59,7 @@ class Pieza {
 		return jugador;
 	}
 
-	public boolean mover(int f, int c, Tablero t) {
-		return false;
+	public abstract boolean mover(int f, int c, Tablero t) {		
 	}
 
 	// Verifica que no halla ninguna pieza en la posicion destino, y si hay una
@@ -153,10 +158,7 @@ class Pieza {
 
 	}
 	
-	public boolean estaEnJaque(Tablero t, int fila, int columna){
-		// aca no entro nunca
-		System.out.println("Si imprimo esto, es ERROR");
-		return true;
+	public abstract boolean estaEnJaque(Tablero t, int fila, int columna){		
 	}
 
 }

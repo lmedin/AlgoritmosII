@@ -3,25 +3,9 @@ import java.io.*;
 
 class Torre extends Pieza {
 
-	// private void filtrarMovimientosHorizontales(int f, int c,
-	// ArrayList<Par> posiblesMovimientos, Tablero t) {
-	//
-	// if (!(t.hayPiezaDadaPosicion(f, c))) {
-	// Par parDeMov = new Par(f, c);
-	// posiblesMovimientos.add(parDeMov);
-	// } else {
-	// Pieza ficha = t.getPieza(f, c);
-	// if (ficha.getJugador() != this.getJugador()) {
-	// Par parDeMov = new Par(f, c);
-	// posiblesMovimientos.add(parDeMov);
-	// }
-	// }
-	//
-	// }
+	public Torre(String s, int f, int c, String s2, String t) {
 
-	public Torre(String s, int f, int c, String s2) {
-
-		super(s, f, c, s2);
+		super(s, f, c, s2,t);
 
 	}
 

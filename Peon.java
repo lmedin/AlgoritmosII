@@ -6,9 +6,9 @@ class Peon extends Pieza {
 
 	private boolean primerMov;
 
-	public Peon (String s, int f, int c, String s2){
+	public Peon (String s, int f, int c, String s2, String t){
 
-		super(s,f,c,s2);
+		super(s,f,c,s2,t);
 		primerMov = true;
 	}
 

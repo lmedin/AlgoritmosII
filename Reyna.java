@@ -3,9 +3,9 @@ import java.io.*;
 
 class Reyna extends Pieza {
 
-	public Reyna(String s, int f, int c, String s2) {
+	public Reyna(String s, int f, int c, String s2, String t) {
 
-		super(s, f, c, s2);
+		super(s, f, c, s2,t);
 
 	}
 

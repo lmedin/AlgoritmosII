@@ -25,7 +25,7 @@ class Tablero {
 		// / Generando los peones Blancos
 		for (int i = 0; i < 8; i++) {
 
-			mesa[1][i] = new Peon(s1, 1, i, "P");
+			mesa[1][i] = new Peon(s1, 1, i,"\u2659", "P");
 
 		}
 
@@ -33,7 +33,7 @@ class Tablero {
 
 		for (int i = 0; i < 8; i++) {
 
-			mesa[6][i] = new Peon(s2, 6, i, "P");
+			mesa[6][i] = new Peon(s2, 6, i, "\u265F", "P");
 
 		}
 
@@ -46,28 +46,28 @@ class Tablero {
 			}
 		}
 		// / Generando las torres
-		mesa[0][0] = new Torre(s1, 0, 0, "T");
-		mesa[0][7] = new Torre(s1, 0, 7, "T");
+		mesa[0][0] = new Torre(s1, 0, 0, "\u2656", "T");
+		mesa[0][7] = new Torre(s1, 0, 7, "\u2656", "T");
 
-		mesa[7][0] = new Torre(s2, 7, 0, "T");
-		mesa[7][7] = new Torre(s2, 7, 7, "T");
+		mesa[7][0] = new Torre(s2, 7, 0, "\u265C", "T");
+		mesa[7][7] = new Torre(s2, 7, 7, "\u265C", "T");
 		// / Generando los alfiles
 
-		mesa[0][2] = new Alfil(s1, 0, 2, "A");
-		mesa[0][5] = new Alfil(s1, 0, 5, "A");
+		mesa[0][2] = new Alfil(s1, 0, 2, "\u2657", "A");
+		mesa[0][5] = new Alfil(s1, 0, 5, "\u2657", "A");
 
-		mesa[7][2] = new Alfil(s2, 7, 2, "A");
-		mesa[7][5] = new Alfil(s2, 7, 5, "A");
+		mesa[7][2] = new Alfil(s2, 7, 2, "\u265D", "A");
+		mesa[7][5] = new Alfil(s2, 7, 5, "\u265D", "A");
 		// / Generando los reyes
 
-		mesa[0][4] = new Rey(s1, 0, 4, "R");
+		mesa[0][4] = new Rey(s1, 0, 4, "\u2654", "R");
 
-		mesa[7][4] = new Rey(s2, 7, 4, "R");
+		mesa[7][4] = new Rey(s2, 7, 4, "\u265a", "R");
 		// / Generando las reynas
 
-		mesa[0][3] = new Reyna(s1, 0, 3, "RY");
+		mesa[0][3] = new Reyna(s1, 0, 3, "\u2655", "RY");
 
-		mesa[7][3] = new Reyna(s2, 7, 3, "RY");
+		mesa[7][3] = new Reyna(s2, 7, 3, "\u265B", "RY");
 	}
 
 	// Dada posicion tablero me devuelve la pieza (No valida si hay una ficha)
@@ -119,7 +119,7 @@ class Tablero {
 					pantalla.append((mesa[i][j]).getCode() + "  ");
 				} else {
 
-					pantalla.append("0  ");
+					pantalla.append("\u2610  ");
 				}
 			}
 
@@ -192,8 +192,9 @@ class Tablero {
 
 				
 				// chequeo si la posicion a donde me muevo estaba el rey para terminar la partida
-				if (this.hayPiezaDadaPosicion(fd,cd) && this.getPieza(fd,cd).getCode() == "R"){
-					finJuego = true;	
+				if (this.hayPiezaDadaPosicion(fd,cd) && this.getPieza(fd,cd).getTipo() == "R"){
+					finJuego = false;
+					System.out.println("Fin de juego. GANO:" + ficha.getJugador());		
 										
 				}
 
@@ -204,25 +205,27 @@ class Tablero {
 				Par pos;
 				Pieza rey;
 				
-				switch ( ficha.getJugador() ) {
-				   
-				  case "blanco":
-					  pos = this.getReyNegro();
-					  rey = this.getPieza(pos.getPrimero(), pos.getSegundo());
-					  if (rey.estaEnJaque(this, pos.getPrimero(),pos.getSegundo())){
-						  System.out.println("Rey negro en jaque");
-						  // aca nose q mas se puede hacer PREGUNTAR
-					  }
-					  break;
+				if (getEstado()){
+					switch ( ficha.getJugador() ) {
 					   
-				  case "negro":
-					  pos = this.getReyBlanco();
-					  rey = this.getPieza(pos.getPrimero(), pos.getSegundo());
-					  if (rey.estaEnJaque(this, pos.getPrimero(),pos.getSegundo())){
-						  System.out.println("Rey blanco en jaque");
-						  // aca nose q mas se puede hacer PREGUNTAR
-					  }						   
-				}	
+					  case "blanco":
+						  pos = this.getReyNegro();
+						  rey = this.getPieza(pos.getPrimero(), pos.getSegundo());
+						  if (rey.estaEnJaque(this, pos.getPrimero(),pos.getSegundo())){
+							  System.out.println("Rey negro en jaque");
+							  // aca nose q mas se puede hacer PREGUNTAR
+						  }
+						  break;
+						   
+					  case "negro":
+						  pos = this.getReyBlanco();
+						  rey = this.getPieza(pos.getPrimero(), pos.getSegundo());
+						  if (rey.estaEnJaque(this, pos.getPrimero(),pos.getSegundo())){
+							  System.out.println("Rey blanco en jaque");
+							  // aca nose q mas se puede hacer PREGUNTAR
+						  }						   
+					}
+				}
 
 				return true;
 
